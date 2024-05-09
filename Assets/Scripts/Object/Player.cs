@@ -23,9 +23,7 @@ public class Player : NetworkBehaviour
         transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
         body = GetComponent<Rigidbody>();
     }
-    public override void OnNetworkSpawn()
-    {
-    }
+
     // Update is called once per frame
     void Update()
     {
