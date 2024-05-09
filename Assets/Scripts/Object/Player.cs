@@ -19,12 +19,12 @@ public class Player : NetworkBehaviour
     void Start()
     {
         // Retrieve reference to this GameObject's Rigidbody component
+        transform.position = new Vector3(Random.Range(positionRange, -positionRange), 0f, Random.Range(positionRange, -positionRange));
+        transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
         body = GetComponent<Rigidbody>();
     }
     public override void OnNetworkSpawn()
     {
-        transform.position = new Vector3(Random.Range(positionRange, -positionRange), 0f, Random.Range(positionRange, -positionRange));
-        transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
     }
     // Update is called once per frame
     void Update()
@@ -32,6 +32,7 @@ public class Player : NetworkBehaviour
         HandleMovement();
     }
 
+      
 
     //Xử lí di chuyển của player
     private void HandleMovement()
