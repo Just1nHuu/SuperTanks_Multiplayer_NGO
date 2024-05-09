@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -9,10 +9,10 @@ public class SuperTanksGameManager : NetworkBehaviour
 
     public event EventHandler OnLocalPlayerReadyChanged;
     public event EventHandler OnStageChanged;
-
+    //Sự kiện xảy ra khi game local bị tạm dừng
     public event EventHandler OnLocalGamePaused;
     public event EventHandler OnLocalGameUnPaused;
-
+    //Sự kiến xảy ra khi game bị tạm dừng 
     public event EventHandler OnMultiplayerGamePaused;
     public event EventHandler OnMultiplayerGameUnPaused;
 
@@ -47,6 +47,7 @@ public class SuperTanksGameManager : NetworkBehaviour
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.SpaceAction += GameInput_SpaceAction;
+
     }
 
     private void GameInput_OnPauseAction(object sender, EventArgs e)
@@ -209,7 +210,7 @@ public class SuperTanksGameManager : NetworkBehaviour
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            if (playerReadyDictionary.ContainsKey(clientId) && playerReadyDictionary[clientId])
+            if (playerPausedDictionary.ContainsKey(clientId) && playerPausedDictionary[clientId])
             {
                 isGamePaused.Value = true;
                 return;
