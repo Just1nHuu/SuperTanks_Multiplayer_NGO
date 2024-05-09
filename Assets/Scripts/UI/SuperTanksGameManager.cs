@@ -7,10 +7,12 @@ public class SuperTanksGameManager : NetworkBehaviour
 {
     public static SuperTanksGameManager Instance { get; private set; }
 
-    public event EventHandler OnStageChanged;
-    public event EventHandler OnLocalGamePaused;
-    public event EventHandler OnLocalGameUnpaused;
     public event EventHandler OnLocalPlayerReadyChanged;
+    public event EventHandler OnStageChanged;
+
+    public event EventHandler OnLocalGamePaused;
+    public event EventHandler OnLocalGameUnPaused;
+
     public event EventHandler OnMultiplayerGamePaused;
     public event EventHandler OnMultiplayerGameUnPaused;
 
@@ -178,7 +180,7 @@ public class SuperTanksGameManager : NetworkBehaviour
         else
         {
             UnPauseGameServerRpc();
-            OnLocalGameUnpaused?.Invoke(this, EventArgs.Empty);
+            OnLocalGameUnPaused?.Invoke(this, EventArgs.Empty);
         }
     }
 

@@ -23,11 +23,11 @@ public class GamePauseUI : MonoBehaviour
     private void Start()
     {
         SuperTanksGameManager.Instance.OnLocalGamePaused += SuperTanksGameManager_OnLocalGamePaused;
-        SuperTanksGameManager.Instance.OnLocalGameUnpaused += SuperTanksGameManager_OnLocalGameUnpaused;
+        SuperTanksGameManager.Instance.OnLocalGameUnPaused += SuperTanksGameManager_OnLocalGameUnPaused;
         Hide();
     }
 
-    private void SuperTanksGameManager_OnLocalGameUnpaused(object sender, EventArgs e)
+    private void SuperTanksGameManager_OnLocalGameUnPaused(object sender, EventArgs e)
     {
         Hide();
     }
