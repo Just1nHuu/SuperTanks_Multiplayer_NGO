@@ -32,7 +32,7 @@ public class SuperTanksGameManager : NetworkBehaviour
     private NetworkVariable<bool> isGamePaused = new NetworkVariable<bool>(false);
     private Dictionary<ulong, bool> playerReadyDictionary;
     private Dictionary<ulong, bool> playerPausedDictionary;
-
+    private bool autoTestGamePausedState;
 
 
     private void Awake()
@@ -119,11 +119,28 @@ public class SuperTanksGameManager : NetworkBehaviour
         }
         Debug.Log(state);
     }
-
+    private void LateUpdate()
+    {
+        if ((autoTestGamePausedState))
+        {
+            autoTestGamePausedState = false;
+            TestGamePausedState();
+        }
+    }
     public override void OnNetworkSpawn()
     {
         state.OnValueChanged += State_OnValueChanged;
         isGamePaused.OnValueChanged += IsGamePaused_OnValueChanged;
+
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
+    }
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        autoTestGamePausedState = true;
     }
 
     private void IsGamePaused_OnValueChanged(bool previousValue, bool newValue)

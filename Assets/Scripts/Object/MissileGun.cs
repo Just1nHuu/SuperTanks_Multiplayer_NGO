@@ -37,8 +37,6 @@ public class MissileGun : NetworkBehaviour
             //Thông báo ra console
             
         }    
-
-  
     }
     //Tạo Rpc để tạo tên lửa
     [ServerRpc(RequireOwnership = false)]
