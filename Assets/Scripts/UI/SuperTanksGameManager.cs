@@ -16,6 +16,8 @@ public class SuperTanksGameManager : NetworkBehaviour
     public event EventHandler OnMultiplayerGamePaused;
     public event EventHandler OnMultiplayerGameUnPaused;
 
+    public event EventHandler ShootGun;
+
     private enum State
     {
         WaitingToStart,
@@ -46,8 +48,17 @@ public class SuperTanksGameManager : NetworkBehaviour
     private void Start()
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
+        GameInput.Instance.EnterAction += GameInput_EnterAction;
         GameInput.Instance.SpaceAction += GameInput_SpaceAction;
 
+    }
+
+    private void GameInput_SpaceAction(object sender, EventArgs e)
+    {
+        TestGamePausedState();
+        if (isGamePaused.Value) return;
+        Debug.Log("ShootGun");
+        ShootGun?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnPauseAction(object sender, EventArgs e)
@@ -55,7 +66,7 @@ public class SuperTanksGameManager : NetworkBehaviour
         TogglePauseGame();
     }
     
-    private void GameInput_SpaceAction(object sender, EventArgs e)
+    private void GameInput_EnterAction(object sender, EventArgs e)
     {
         if (state.Value == State.WaitingToStart)
         {
@@ -140,6 +151,7 @@ public class SuperTanksGameManager : NetworkBehaviour
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
+
         autoTestGamePausedState = true;
     }
 
@@ -233,7 +245,6 @@ public class SuperTanksGameManager : NetworkBehaviour
                 return;
             }
         }
-
         isGamePaused.Value = false;
     }
 }

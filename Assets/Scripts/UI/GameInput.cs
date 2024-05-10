@@ -16,6 +16,7 @@ public class GameInput : NetworkBehaviour
     public event EventHandler HaveMissileAction;
     public event EventHandler MoveAction;
     public event EventHandler RotationAction;
+    public event EventHandler EnterAction;
     public event EventHandler SpaceAction;
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class GameInput : NetworkBehaviour
         playerInputActions = new PlayerInputAction();
         playerInputActions.Player.Enable();
         playerInputActions.Player.Pause.performed += Pause_performed;
+        playerInputActions.Player.Enter.performed += Enter_performed;
         playerInputActions.Player.Space.performed += Space_performed;
 
     }
@@ -32,7 +34,8 @@ public class GameInput : NetworkBehaviour
     {
 
         playerInputActions.Player.Pause.performed -= Pause_performed;
-        playerInputActions.Player.Space.performed -= Pause_performed;
+        playerInputActions.Player.Enter.performed -= Enter_performed;
+        playerInputActions.Player.Space.performed -= Space_performed;
         playerInputActions.Dispose();
     }
     private void Pause_performed(InputAction.CallbackContext context)
@@ -40,10 +43,17 @@ public class GameInput : NetworkBehaviour
         OnPauseAction?.Invoke(this, EventArgs.Empty);
     }
     
+    private void Enter_performed(InputAction.CallbackContext context)
+    {
+        EnterAction?.Invoke(this, EventArgs.Empty);
+    }
+    
     private void Space_performed(InputAction.CallbackContext context)
     {
+        Debug.Log("Space");
         SpaceAction?.Invoke(this, EventArgs.Empty);
     }
+
     
 
     // Returns input values of 0, 1 or -1 based on whether Player tries to move forward or back
@@ -61,11 +71,6 @@ public class GameInput : NetworkBehaviour
         playerInputActions.Player.Rotate.performed += ctx => rotationInput = ctx.ReadValue<Vector2>();
         playerInputActions.Player.Rotate.canceled += ctx => rotationInput = Vector2.zero;
         return rotationInput.x;
-    }
-
-    public KeyCode GetMissileInput()
-    {
-        return playerInputActions.Player.HaveMissile.triggered ? KeyCode.Space : KeyCode.None;
     }
 }
 

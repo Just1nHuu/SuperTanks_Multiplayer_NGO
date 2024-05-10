@@ -17,27 +17,20 @@ public class MissileGun : NetworkBehaviour
     //để kiểm soát các thực thể tên lửa
     [SerializeField] public List<GameObject> spawnedMissile = new List<GameObject>();
 
-
-    private void Update()
+    private void Start()
     {
-        if (!SuperTanksGameManager.Instance.IsGamePlaying()) return;
-
-        FireMissile();
+        SuperTanksGameManager.Instance.ShootGun += GetGameInput_SpaceAction;
     }
 
-    // Update is called once per frame
-    void FireMissile()
+    private void GetGameInput_SpaceAction(object sender, EventArgs e)
     {
-        if (!IsOwner) return;
-        
-        if (Input.GetButtonDown("Fire"+player))
-        { 
-            Debug.Log("Fire");
-            CreateMissileServerRpc();
-            //Thông báo ra console
-            
-        }    
+        if(!IsOwner) return;
+        if(!SuperTanksGameManager.Instance.IsGamePlaying()) return;
+
+        CreateMissileServerRpc();
     }
+
+
     //Tạo Rpc để tạo tên lửa
     [ServerRpc(RequireOwnership = false)]
     public void CreateMissileServerRpc()

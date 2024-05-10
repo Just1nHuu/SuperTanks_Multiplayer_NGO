@@ -64,9 +64,18 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Space"",
+                    ""name"": ""Enter"",
                     ""type"": ""Button"",
                     ""id"": ""bb4717b8-c085-4375-88bc-f02ae5facd95"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Space"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ecb70a0-72f9-4be9-88b8-c74b2b1fba55"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -165,6 +174,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e4c9889a-ba56-4ecb-9397-e8d9a51ca77d"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4a54cbc-e018-4f06-bfbe-4948f961614a"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -184,6 +204,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_HaveMissile = m_Player.FindAction("HaveMissile", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Enter = m_Player.FindAction("Enter", throwIfNotFound: true);
         m_Player_Space = m_Player.FindAction("Space", throwIfNotFound: true);
     }
 
@@ -250,6 +271,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_HaveMissile;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Enter;
     private readonly InputAction m_Player_Space;
     public struct PlayerActions
     {
@@ -259,6 +281,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @HaveMissile => m_Wrapper.m_Player_HaveMissile;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Enter => m_Wrapper.m_Player_Enter;
         public InputAction @Space => m_Wrapper.m_Player_Space;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -281,6 +304,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Enter.started += instance.OnEnter;
+            @Enter.performed += instance.OnEnter;
+            @Enter.canceled += instance.OnEnter;
             @Space.started += instance.OnSpace;
             @Space.performed += instance.OnSpace;
             @Space.canceled += instance.OnSpace;
@@ -300,6 +326,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Enter.started -= instance.OnEnter;
+            @Enter.performed -= instance.OnEnter;
+            @Enter.canceled -= instance.OnEnter;
             @Space.started -= instance.OnSpace;
             @Space.performed -= instance.OnSpace;
             @Space.canceled -= instance.OnSpace;
@@ -326,6 +355,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnHaveMissile(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnEnter(InputAction.CallbackContext context);
         void OnSpace(InputAction.CallbackContext context);
     }
 }
