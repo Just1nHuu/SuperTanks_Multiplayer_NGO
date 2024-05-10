@@ -199,6 +199,10 @@ public class SuperTanksGameManager : NetworkBehaviour
         return state.Value == State.GameOver;
     }
 
+    public bool isWaitingToStart()
+    {
+        return state.Value == State.WaitingToStart;
+    }
     public void TogglePauseGame()
     {
         isLocalGamePaused = !isLocalGamePaused;
