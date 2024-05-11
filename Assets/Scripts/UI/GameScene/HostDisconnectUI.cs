@@ -10,7 +10,7 @@ public class HostDisconnectUI : MonoBehaviour
     [SerializeField] private Button playAgainButton;
     private bool isServerAcceptingConnections = true;
 
-    private void Update()
+    private void Start()
     {
         NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
 
@@ -19,11 +19,11 @@ public class HostDisconnectUI : MonoBehaviour
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
-        Debug.Log("The client disconnected: " + clientId);
-        if (clientId == NetworkManager.ServerClientId)
+        if (clientId == NetworkManager.Singleton.LocalClientId)
         {
             Show();
         }
+        Debug.Log("The client disconnected: " + clientId);
     }
 
     private void Show()
