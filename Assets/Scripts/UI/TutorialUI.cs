@@ -8,7 +8,6 @@ public class TutorialUI : MonoBehaviour
     private void Start()
     {
         SuperTanksGameManager.Instance.OnLocalPlayerReadyChanged += SuperTanksGameManager_OnLocalPlayerReadyChanged;
-        Debug.Log("TutorialUI Start");  
         Show();
     }
 
@@ -17,7 +16,6 @@ public class TutorialUI : MonoBehaviour
     {
         if (SuperTanksGameManager.Instance.IsLocalPlayerReady())
         {
-            Debug.Log("TutorialUI");
             Hide();
         }
     }

@@ -7,10 +7,11 @@ using UnityEngine;
 public class SuperTanksMultiplayer : MonoBehaviour
 {
     public static SuperTanksMultiplayer Instance { get; private set; }
-
+    private bool isNotConnected = false;
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void StartHost()
@@ -21,15 +22,12 @@ public class SuperTanksMultiplayer : MonoBehaviour
 
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
-        if (SuperTanksGameManager.Instance.isWaitingToStart())
-        {
             connectionApprovalResponse.Approved = true;
-            connectionApprovalResponse.CreatePlayerObject = true;
-        }
-        else
-        {
-            connectionApprovalResponse.Approved = false;
-        }
+    }
+
+    public bool isCheckiNotConnected()
+    {
+        return isNotConnected;
     }
 
     public void StartClient()

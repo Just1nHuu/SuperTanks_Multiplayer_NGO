@@ -57,6 +57,7 @@ Library: C:\Users\Huu Tai\Desktop\SuperTanks_Multiplayer_NGO\Temp\BurstOutput\Da
 --assembly-defines=Unity.Services.Core.Registration;
 --assembly-defines=Unity.VisualScripting.State;
 --assembly-defines=Unity.Multiplayer.Tools.NetStatsReporting;
+--assembly-defines=IngameDebugConsole.Runtime;
 --assembly-defines=Unity.Multiplayer.Tools.MetricEvents;
 --assembly-defines=Unity.Multiplayer.Tools.NetStatsMonitor.Component;
 --assembly-defines=websocket-sharp;
@@ -233,6 +234,7 @@ Library: C:\Users\Huu Tai\Desktop\SuperTanks_Multiplayer_NGO\Temp\BurstOutput\Da
 --assembly-defines=Unity.Services.Core.Registration;
 --assembly-defines=Unity.VisualScripting.State;
 --assembly-defines=Unity.Multiplayer.Tools.NetStatsReporting;
+--assembly-defines=IngameDebugConsole.Runtime;
 --assembly-defines=Unity.Multiplayer.Tools.MetricEvents;
 --assembly-defines=Unity.Multiplayer.Tools.NetStatsMonitor.Component;
 --assembly-defines=websocket-sharp;

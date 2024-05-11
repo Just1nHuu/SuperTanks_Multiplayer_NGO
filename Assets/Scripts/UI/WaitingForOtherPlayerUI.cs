@@ -15,7 +15,6 @@ public class WaitingForOtherPlayerUI : MonoBehaviour
     {
         if(SuperTanksGameManager.Instance.isCountdownToStartActive())
         {
-            Debug.Log("Waitting1");
             Hide();
         }
     }
@@ -23,7 +22,6 @@ public class WaitingForOtherPlayerUI : MonoBehaviour
     {
         if(SuperTanksGameManager.Instance.isCountdownToStartActive())
         {
-            Debug.Log("Waitting2");
             Hide();
         }
         

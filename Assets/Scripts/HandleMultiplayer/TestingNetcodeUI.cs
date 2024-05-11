@@ -13,14 +13,12 @@ public class TestingNetcodeUI : MonoBehaviour
     {
         startClientButton.onClick.AddListener(() =>
         {
-            Debug.Log("Client");
             SuperTanksMultiplayer.Instance.StartClient();
             Hide();
         });
 
         startHostButton.onClick.AddListener(() =>
         {
-            Debug.Log("Host");
             SuperTanksMultiplayer.Instance.StartHost();
             Hide();
         });

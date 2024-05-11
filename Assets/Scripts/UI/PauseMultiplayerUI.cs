@@ -18,7 +18,6 @@ public class PauseMultiplayerUI : MonoBehaviour
     }
     private void SuperTanksGameManager_OnMultiplayerGameUnPaused(object sender, EventArgs e)
     {
-        Debug.Log("Unpaused");
         Hide();
     }
 

@@ -56,8 +56,7 @@ public class SuperTanksGameManager : NetworkBehaviour
     private void GameInput_SpaceAction(object sender, EventArgs e)
     {
         TestGamePausedState();
-        if (isGamePaused.Value) return;
-        Debug.Log("ShootGun");
+        if (isGamePaused.Value) return; 
         ShootGun?.Invoke(this, EventArgs.Empty);
     }
 
@@ -128,7 +127,6 @@ public class SuperTanksGameManager : NetworkBehaviour
             case State.GameOver:
                 break;            
         }
-        Debug.Log(state);
     }
     private void LateUpdate()
     {
