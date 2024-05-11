@@ -7,7 +7,6 @@ using UnityEngine;
 public class SuperTanksMultiplayer : MonoBehaviour
 {
     public static SuperTanksMultiplayer Instance { get; private set; }
-    private bool isNotConnected = false;
     private void Awake()
     {
         Instance = this;
@@ -23,11 +22,6 @@ public class SuperTanksMultiplayer : MonoBehaviour
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
             connectionApprovalResponse.Approved = true;
-    }
-
-    public bool isCheckiNotConnected()
-    {
-        return isNotConnected;
     }
 
     public void StartClient()

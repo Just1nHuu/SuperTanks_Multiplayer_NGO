@@ -13,7 +13,7 @@ public class TestingLobbyUI : MonoBehaviour
         createGameButton.onClick.AddListener(() =>
         {
             SuperTanksMultiplayer.Instance.StartHost();
-            Loader.Load(Loader.Scene.CharacterSelectionScene);
+            Loader.LoadNetwork(Loader.Scene.CharacterSelectScene);
         });
 
         joinGameButton.onClick.AddListener(() =>
