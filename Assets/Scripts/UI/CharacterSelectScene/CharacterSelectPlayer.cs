@@ -7,9 +7,16 @@ using UnityEngine;
 public class CharacterSelectPlayer : MonoBehaviour
 {
     [SerializeField] private int playerIndex;
+    [SerializeField] private GameObject readyGameObject;
     private void Start()
     {
         SuperTanksMultiplayer.Instance.OnDataNetworkListChanged += SuperTanksMultiplayer_OnDataNetworkListChanged;
+        CharacterSelectReady.Instance.OnReadyChanged += CharacterSelectReady_OnReadyChanged;
+        UpdatePlayer();
+    }
+
+    private void CharacterSelectReady_OnReadyChanged(object sender, EventArgs e)
+    {
         UpdatePlayer();
     }
 
@@ -23,6 +30,9 @@ public class CharacterSelectPlayer : MonoBehaviour
         if(SuperTanksMultiplayer.Instance.IsPlayerIndexConnected(playerIndex))
         {
             Show();
+
+            PlayerData playeData = SuperTanksMultiplayer.Instance.GetPlayerDataFromPlayeIndex(playerIndex);
+            readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playeData.clientId));
         }
         else
         {

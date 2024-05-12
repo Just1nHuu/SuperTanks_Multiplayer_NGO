@@ -78,4 +78,11 @@ public class SuperTanksMultiplayer : NetworkBehaviour
     {
         return playerIndex < playerDataNetworkList.Count;
     }
+
+    
+
+    public PlayerData GetPlayerDataFromPlayeIndex(int playerIndex)
+    {
+        return playerDataNetworkList[playerIndex];
+    }   
 }
