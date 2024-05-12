@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031662753830857801}
+  - component: {fileID: 4301022048465052188}
   m_Layer: 0
   m_Name: CharacterSelectPlayer
   m_TagString: Untagged
@@ -32,6 +33,19 @@ Transform:
   - {fileID: 660623100407065446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4301022048465052188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002829613134786191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e2bcd72a33c0474d946a9d0ed9d7e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerIndex: 0
 --- !u!1001 &664993652581365882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,7 +104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2167693186654950094, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3506466983
+      value: 1326927346
       objectReference: {fileID: 0}
     - target: {fileID: 2167693186654950094, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
@@ -103,6 +117,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7636444803856593856, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
     - {fileID: -3981065779683763213, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
+    - {fileID: 5190808977120764827, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
+    - {fileID: 2167693186654950094, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
+    - {fileID: -6804858359007084803, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
+    - {fileID: 788723901838793042, guid: 5dfbec07c3b6641489e5d2bf4b988a0a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

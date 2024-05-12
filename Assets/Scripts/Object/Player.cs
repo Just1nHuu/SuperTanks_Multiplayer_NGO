@@ -22,12 +22,6 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody>();
     }
 
-    public override void OnNetworkSpawn()
-    {
-        transform.position = new Vector3(Random.Range(positionRange, -positionRange), 0f, Random.Range(positionRange, -positionRange));
-        transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
-    }
-
     // Update is called once per frame
     void Update()
     {
