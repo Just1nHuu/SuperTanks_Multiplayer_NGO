@@ -9,6 +9,8 @@ public class Player : NetworkBehaviour
     // How quickly player moves forward and back
     private float speed = 10f;
 
+    [SerializeField] private List<Vector3> spawnPositionList;
+
     // How quickly player rotates (degrees per second)
     private float rotationSpeed = 180f;
 
@@ -20,6 +22,19 @@ public class Player : NetworkBehaviour
     {
         // Retrieve reference to this GameObject's Rigidbody component
         body = GetComponent<Rigidbody>();
+
+        // Set the color of the MeshRenderer material
+        gameObject.GetComponent<MeshRenderer>().material.color = SuperTanksMultiplayer.Instance.SetColor((int)OwnerClientId);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+
+        if (IsOwner)
+        {
+            transform.position = spawnPositionList[(int)OwnerClientId];
+        }
+
     }
 
     // Update is called once per frame

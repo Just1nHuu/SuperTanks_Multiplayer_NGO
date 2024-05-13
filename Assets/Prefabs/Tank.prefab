@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3866371157
+  GlobalObjectIdHash: 3798754133
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -189,6 +189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba6468941af11348a6c820034065d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPositionList:
+  - {x: 32.6, y: 0.01270252, z: -27.4}
+  - {x: -32.1247, y: 0.01270634, z: -27.84654}
+  - {x: 32.53431, y: 0.01270634, z: 12.13622}
+  - {x: -32.55421, y: 0.01270634, z: 12.25854}
 --- !u!114 &5190808977120764827
 MonoBehaviour:
   m_ObjectHideFlags: 0

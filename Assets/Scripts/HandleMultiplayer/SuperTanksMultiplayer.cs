@@ -7,12 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class SuperTanksMultiplayer : NetworkBehaviour
 {
-    private const int MAX_PLAYE_AMOUNT = 4;
+    public const int MAX_PLAYE_AMOUNT = 4;
     public static SuperTanksMultiplayer Instance { get; private set; }
 
     public event EventHandler OnTryingToJoinGame;
     public event EventHandler OnFailedToJoinGame;
-    public event EventHandler OnDataNetworkListChanged;     
+    public event EventHandler OnDataNetworkListChanged; 
+    [SerializeField] List<Color> playerColoList;
+
+    
 
     private NetworkList<PlayerData> playerDataNetworkList;
 
@@ -24,7 +27,6 @@ public class SuperTanksMultiplayer : NetworkBehaviour
         PlayerData playerData = new PlayerData();
         playerDataNetworkList = new NetworkList<PlayerData>();
         playerDataNetworkList.OnListChanged += PlayerDataNetworkList_OnListChanged;
-        Debug.Log("List changed");
     }
 
     private void PlayerDataNetworkList_OnListChanged(NetworkListEvent<PlayerData> changeEvent)
@@ -36,7 +38,21 @@ public class SuperTanksMultiplayer : NetworkBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartHost();
+    }
+
+    private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
+    {
+        for (int i = 0; i < playerDataNetworkList.Count; i++)
+        {
+            PlayerData playerData = playerDataNetworkList[i];
+            if (playerData.clientId == clientId)
+            {
+                playerDataNetworkList.RemoveAt(i);
+               
+            }
+        }
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
@@ -79,10 +95,25 @@ public class SuperTanksMultiplayer : NetworkBehaviour
         return playerIndex < playerDataNetworkList.Count;
     }
 
-    
-
     public PlayerData GetPlayerDataFromPlayeIndex(int playerIndex)
     {
         return playerDataNetworkList[playerIndex];
     }   
+
+    public Color SetColor(int clientId)
+    {
+        return playerColoList[clientId];
+    }
+
+    public PlayerData GetPlayerDataFromClientId(ulong clientId)
+    {
+        foreach (PlayerData playerData in playerDataNetworkList)
+        {
+            if (playerData.clientId == clientId)
+            {
+                return playerData;
+            }
+        }
+        return default;
+    }
 }
