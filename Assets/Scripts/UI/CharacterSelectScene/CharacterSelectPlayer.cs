@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class CharacterSelectPlayer : MonoBehaviour
 {
     [SerializeField] private int playerIndex;
     [SerializeField] private GameObject readyGameObject;
+    [SerializeField] private TextMeshPro playerNameText;
     private void Start()
     {
         SuperTanksMultiplayer.Instance.OnDataNetworkListChanged += SuperTanksMultiplayer_OnDataNetworkListChanged;
@@ -33,6 +35,7 @@ public class CharacterSelectPlayer : MonoBehaviour
 
             PlayerData playeData = SuperTanksMultiplayer.Instance.GetPlayerDataFromPlayeIndex(playerIndex);
             readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playeData.clientId));
+            playerNameText.text = playeData.playerName.ToString();   
         }
         else
         {

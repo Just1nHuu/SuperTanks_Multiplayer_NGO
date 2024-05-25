@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class SuperTanksMultiplayer : NetworkBehaviour
 {
     public const int MAX_PLAYE_AMOUNT = 4;
+    private  const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
     public static SuperTanksMultiplayer Instance { get; private set; }
 
     public event EventHandler OnTryingToJoinGame;
@@ -15,7 +16,7 @@ public class SuperTanksMultiplayer : NetworkBehaviour
     public event EventHandler OnDataNetworkListChanged; 
     [SerializeField] List<Color> playerColoList;
 
-    
+    private string playerName;
 
     private NetworkList<PlayerData> playerDataNetworkList;
 
@@ -24,9 +25,22 @@ public class SuperTanksMultiplayer : NetworkBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER,"PlayerName"+UnityEngine.Random.Range(100,100));
+
         PlayerData playerData = new PlayerData();
         playerDataNetworkList = new NetworkList<PlayerData>();
         playerDataNetworkList.OnListChanged += PlayerDataNetworkList_OnListChanged;
+    }
+
+    public string GetPlayerName()
+    {
+        return playerName;
+    }
+
+    public void SetPlayerName(string playerName)
+    {
+        this.playerName = playerName;
+        PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, playerName);
     }
 
     private void PlayerDataNetworkList_OnListChanged(NetworkListEvent<PlayerData> changeEvent)
@@ -58,6 +72,8 @@ public class SuperTanksMultiplayer : NetworkBehaviour
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
         playerDataNetworkList.Add(new PlayerData { clientId = clientId });
+
+        SetPlayerNameServerRpc(GetPlayerName());
     }
 
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
@@ -81,13 +97,31 @@ public class SuperTanksMultiplayer : NetworkBehaviour
     {
         OnTryingToJoinGame?.Invoke(this, EventArgs.Empty);
 
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientConnectedCallback;
         NetworkManager.Singleton.StartClient();   
     }
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerNameServerRpc(string playerName,ServerRpcParams serverRpcParams = default)
+    {
+        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerDataIndex];
+
+        playerData.playerName = playerName;
+
+        playerDataNetworkList[playerDataIndex] = playerData;
+    }
+
+    private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
+    {
+        SetPlayerNameServerRpc(GetPlayerName());
     }
 
     public  bool IsPlayerIndexConnected(int playerIndex)
@@ -115,5 +149,16 @@ public class SuperTanksMultiplayer : NetworkBehaviour
             }
         }
         return default;
+    }
+    public int GetPlayerDataIndexFromClientId(ulong clientId)
+    {
+        for (int i = 0; i < playerDataNetworkList.Count; i++)
+        {
+            if (playerDataNetworkList[i].clientId == clientId)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }

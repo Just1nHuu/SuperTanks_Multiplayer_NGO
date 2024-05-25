@@ -11,6 +11,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private Button quickJoinButton;
     [SerializeField] private Button joinCodeButton;
     [SerializeField] private TMP_InputField joinCodeInputField;
+    [SerializeField] private TMP_InputField playerNameInputField;
     [SerializeField] private LobbyCreateUI lobbyCreateUI;
 
     private void Awake()
@@ -31,6 +32,15 @@ public class LobbyUI : MonoBehaviour
         joinCodeButton.onClick.AddListener(() =>
         {
             SuperTanksLobby.Instance.JoinWithCode(joinCodeInputField.text);
+        });
+    }
+
+    private void Start()
+    {
+        playerNameInputField.text = SuperTanksMultiplayer.Instance.GetPlayerName();
+        playerNameInputField.onEndEdit.AddListener((string playerName) =>
+        {
+            SuperTanksMultiplayer.Instance.SetPlayerName(playerName);
         });
     }
 }
