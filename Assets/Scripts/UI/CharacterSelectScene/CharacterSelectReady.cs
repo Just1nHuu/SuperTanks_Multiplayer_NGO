@@ -48,6 +48,7 @@ public class CharacterSelectReady : NetworkBehaviour
 
         if (allClientsReady)
         {
+            SuperTanksLobby.Instance.DeleteLobby();
             Loader.LoadNetwork(Loader.Scene.GameScene);
         }
         Debug.Log("All players ready: " + allClientsReady);

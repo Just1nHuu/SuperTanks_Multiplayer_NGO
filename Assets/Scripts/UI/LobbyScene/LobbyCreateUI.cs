@@ -8,6 +8,7 @@ public class LobbyCreateUI : MonoBehaviour
 {
     [SerializeField] private Button createPublicButton;
     [SerializeField] private Button createPrivateButton;
+    [SerializeField] private Button closeButton;
     [SerializeField] private TMP_InputField lobbyNameInputField;
 
     private void Awake()
@@ -17,8 +18,12 @@ public class LobbyCreateUI : MonoBehaviour
             SuperTanksLobby.Instance.CreateLobby(lobbyNameInputField.text, false);
         });
         createPrivateButton.onClick.AddListener(() =>
-        {
+        {   
             SuperTanksLobby.Instance.CreateLobby(lobbyNameInputField.text, true);
+        });
+        closeButton.onClick.AddListener(() =>
+        {
+            this.Hide();
         });
     }
 

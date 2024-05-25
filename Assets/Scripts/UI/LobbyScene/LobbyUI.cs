@@ -18,6 +18,7 @@ public class LobbyUI : MonoBehaviour
     {
         mainMenuButton.onClick.AddListener(() =>
         {
+            SuperTanksLobby.Instance.LeaveLobby();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
         createLobbyButton.onClick.AddListener(() =>
