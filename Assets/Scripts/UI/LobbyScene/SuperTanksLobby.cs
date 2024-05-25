@@ -18,9 +18,15 @@ public class SuperTanksLobby : MonoBehaviour
     public event EventHandler OnJoinStarted;
     public event EventHandler OnQuickJoinFailed;
     public event EventHandler OnJoinFailed;
+    public event EventHandler OnLobbyListChanged;
+    public class OnLobbyListChangedEventArgs : EventArgs
+    {
+        public List<Lobby> lobbieslist { get; set; }
+    }
 
     private Lobby joinedLobby;
     private float heartbeatTimer;
+    private float listLobbiesTimer;
 
     private void Awake()
     {
@@ -36,6 +42,7 @@ public class SuperTanksLobby : MonoBehaviour
         {
             InitializationOptions initializationOptions = new InitializationOptions();
             initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
+
             await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -46,6 +53,22 @@ public class SuperTanksLobby : MonoBehaviour
     private void Update()
     {
         HandleHeartbeat();
+        HandlePeriodicListLobbies();
+    }
+
+    private void HandlePeriodicListLobbies()
+    {
+        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn)
+        {
+            listLobbiesTimer -= Time.deltaTime;
+            if (listLobbiesTimer <= 0f)
+            {
+                float listLobbiesTimerMax = 5f;
+                listLobbiesTimer = listLobbiesTimerMax;
+
+                ListLobbies();
+            }
+        }
     }
 
     private void HandleHeartbeat()
@@ -66,6 +89,31 @@ public class SuperTanksLobby : MonoBehaviour
     private bool IsLobbyHost()
     {
         return joinedLobby != null  && joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+    }
+
+    private async void ListLobbies()
+    {
+        try
+        {
+        QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions
+        {
+            Filters = new List<QueryFilter>()
+            {
+                new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,"0",QueryFilter.OpOptions.GT),
+                
+            }
+        };
+        QueryResponse queryResponse = await LobbyService.Instance.QueryLobbiesAsync(queryLobbiesOptions);
+
+            OnLobbyListChanged?.Invoke(this, new OnLobbyListChangedEventArgs
+            {
+                lobbieslist = queryResponse.Results
+            }); 
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
     }
 
     public async void CreateLobby(string lobbyName, bool isPrivate)
