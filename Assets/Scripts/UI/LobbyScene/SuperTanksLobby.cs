@@ -18,10 +18,10 @@ public class SuperTanksLobby : MonoBehaviour
     public event EventHandler OnJoinStarted;
     public event EventHandler OnQuickJoinFailed;
     public event EventHandler OnJoinFailed;
-    public event EventHandler OnLobbyListChanged;
+    public event EventHandler<OnLobbyListChangedEventArgs> OnLobbyListChanged;
     public class OnLobbyListChangedEventArgs : EventArgs
     {
-        public List<Lobby> lobbieslist { get; set; }
+        public List<Lobby> lobbyList;
     }
 
     private Lobby joinedLobby;
@@ -63,7 +63,7 @@ public class SuperTanksLobby : MonoBehaviour
             listLobbiesTimer -= Time.deltaTime;
             if (listLobbiesTimer <= 0f)
             {
-                float listLobbiesTimerMax = 5f;
+                float listLobbiesTimerMax = 3f;
                 listLobbiesTimer = listLobbiesTimerMax;
 
                 ListLobbies();
@@ -96,7 +96,7 @@ public class SuperTanksLobby : MonoBehaviour
         try
         {
         QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions
-        {
+        { 
             Filters = new List<QueryFilter>()
             {
                 new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,"0",QueryFilter.OpOptions.GT),
@@ -107,8 +107,8 @@ public class SuperTanksLobby : MonoBehaviour
 
             OnLobbyListChanged?.Invoke(this, new OnLobbyListChangedEventArgs
             {
-                lobbieslist = queryResponse.Results
-            }); 
+                lobbyList = queryResponse.Results
+            });
         }
         catch (LobbyServiceException e)
         {
@@ -152,6 +152,20 @@ public class SuperTanksLobby : MonoBehaviour
         }
     }
 
+    public async void JoinWithId(string lobbyId)
+    {
+        OnJoinStarted?.Invoke(this, EventArgs.Empty);
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
+
+            SuperTanksMultiplayer.Instance.StartClient();
+        } catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+            OnJoinFailed?.Invoke(this, EventArgs.Empty);
+        }
+    }
     public async void JoinWithCode(string lobbyCode)
     {
         OnJoinStarted?.Invoke(this, EventArgs.Empty);

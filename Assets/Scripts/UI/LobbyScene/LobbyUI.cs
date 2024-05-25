@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
+using static SuperTanksLobby;
 
 public class LobbyUI : MonoBehaviour
 {
@@ -13,6 +16,8 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private TMP_InputField joinCodeInputField;
     [SerializeField] private TMP_InputField playerNameInputField;
     [SerializeField] private LobbyCreateUI lobbyCreateUI;
+    [SerializeField] private Transform lobbyContainer;
+    [SerializeField] private Transform lobbyTemplate; 
 
     private void Awake()
     {
@@ -34,6 +39,8 @@ public class LobbyUI : MonoBehaviour
         {
             SuperTanksLobby.Instance.JoinWithCode(joinCodeInputField.text);
         });
+
+        lobbyTemplate.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -43,5 +50,28 @@ public class LobbyUI : MonoBehaviour
         {
             SuperTanksMultiplayer.Instance.SetPlayerName(playerName);
         });
+
+        SuperTanksLobby.Instance.OnLobbyListChanged += SuperTanksLobby_UpdateLobbyList;
+        UpdateLobbyList(new List<Lobby>());
+    }
+
+    private void SuperTanksLobby_UpdateLobbyList(object sender, SuperTanksLobby.OnLobbyListChangedEventArgs e)
+    {
+        UpdateLobbyList(e.lobbyList);
+    }
+
+    private void UpdateLobbyList(List<Lobby> lobbyList)
+    {
+        foreach(Transform child in lobbyContainer)
+        {
+            if(child == lobbyTemplate) continue;
+            Destroy(child.gameObject);
+        }
+        foreach(Lobby lobby in lobbyList)
+        {
+            Transform lobbyTransform = Instantiate(lobbyTemplate, lobbyContainer);
+            lobbyTransform.gameObject.SetActive(true);
+            lobbyTransform.GetComponent<LobbyListSingletonUI>().SetLobby(lobby);
+        }
     }
 }
