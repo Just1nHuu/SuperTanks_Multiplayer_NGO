@@ -18,6 +18,7 @@ public class GamePauseUI : MonoBehaviour
        });
        mainmenuButton.onClick.AddListener(() =>
        {
+           SuperTanksLobby.Instance.LeaveLobby();
            NetworkManager.Singleton.Shutdown();
            Loader.Load(Loader.Scene.MainMenuScene);
        });

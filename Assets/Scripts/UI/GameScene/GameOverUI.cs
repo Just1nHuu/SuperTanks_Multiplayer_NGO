@@ -19,6 +19,7 @@ public class GameOverUI : MonoBehaviour
     {
         playAgainButton.onClick.AddListener(() =>
         {
+            SuperTanksLobby.Instance.LeaveLobby();
             NetworkManager.Singleton.Shutdown();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
