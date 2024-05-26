@@ -80,5 +80,10 @@ public class LobbyMessageUI : MonoBehaviour
     private void OnDestroy()
     {
         SuperTanksMultiplayer.Instance.OnFailedToJoinGame -= SuperTanksMultiplayer_OnFailedToJoinGame;
+        SuperTanksLobby.Instance.OnCreateLobbyStarted -= SuperTanksLobby_OnCreateLobbyStarted;
+        SuperTanksLobby.Instance.OnCreateLobbyFailed -= SuperTanksLobby_OnCreateLobbyFailed;
+        SuperTanksLobby.Instance.OnQuickJoinFailed -= SuperTanksLobby_OnQuickJoinFailed;
+        SuperTanksLobby.Instance.OnJoinFailed -= SuperTanksLobby_OnJoinFailed;
+        SuperTanksLobby.Instance.OnJoinStarted -= SuperTanksLobby_OnJoinStarted;
     }
 }

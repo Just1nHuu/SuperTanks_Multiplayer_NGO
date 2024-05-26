@@ -51,11 +51,11 @@ public class LobbyUI : MonoBehaviour
             SuperTanksMultiplayer.Instance.SetPlayerName(playerName);
         });
 
-        SuperTanksLobby.Instance.OnLobbyListChanged += SuperTanksLobby_UpdateLobbyList;
+        SuperTanksLobby.Instance.OnLobbyListChanged += SuperTanksLobby_OnLobbyListChanged;
         UpdateLobbyList(new List<Lobby>());
     }
 
-    private void SuperTanksLobby_UpdateLobbyList(object sender, SuperTanksLobby.OnLobbyListChangedEventArgs e)
+    private void SuperTanksLobby_OnLobbyListChanged(object sender, SuperTanksLobby.OnLobbyListChangedEventArgs e)
     {
         UpdateLobbyList(e.lobbyList);
     }
@@ -73,5 +73,10 @@ public class LobbyUI : MonoBehaviour
             lobbyTransform.gameObject.SetActive(true);
             lobbyTransform.GetComponent<LobbyListSingletonUI>().SetLobby(lobby);
         }
+    }
+    private void OnDestroy()
+    {
+        SuperTanksLobby.Instance.OnLobbyListChanged -= SuperTanksLobby_OnLobbyListChanged;
+
     }
 }
