@@ -2,16 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using Unity.Netcode;
+using Unity.Networking.Transport.Relay;
+using System.Threading.Tasks;
+using Unity.Netcode.Transports.UTP;
 public class SuperTanksLobby : MonoBehaviour
 {
+    private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode";
     public static SuperTanksLobby Instance { get; private set; }
     
     public event EventHandler OnCreateLobbyStarted;
@@ -119,6 +125,49 @@ public class SuperTanksLobby : MonoBehaviour
         }
     }
 
+    private async Task<Allocation> AllocateRelay()
+    {
+        try 
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(SuperTanksMultiplayer.MAX_PLAYE_AMOUNT-1);
+            return allocation;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+
+            return default;
+        }
+    }    
+
+    private async Task<string> GetRelayjoinCode(Allocation allocation)
+    {
+        try
+        {
+            string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            return relayJoinCode;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+            return default;
+        }
+    }
+
+    private async Task<JoinAllocation> JoinRelay(string joinCode)
+    {
+        try
+        {
+            JoinAllocation joinAllcation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            return joinAllcation;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+            return default;
+        }
+    }
+
     public async void CreateLobby(string lobbyName, bool isPrivate)
     {
         OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
@@ -128,6 +177,19 @@ public class SuperTanksLobby : MonoBehaviour
             {
                 IsPrivate = isPrivate,
             });
+
+            Allocation allocation = await AllocateRelay();
+
+            string relayJoinCode = await GetRelayjoinCode(allocation);
+
+            await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject>
+                {
+                    {KEY_RELAY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member,relayJoinCode)}
+                }
+            });
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation,"dtls"));
             SuperTanksMultiplayer.Instance.StartHost();
             Loader.LoadNetwork(Loader.Scene.CharacterSelectScene);
 
@@ -145,6 +207,13 @@ public class SuperTanksLobby : MonoBehaviour
         try
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllcation = await JoinRelay(relayJoinCode);
+
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllcation, "dtls"));
+
             SuperTanksMultiplayer.Instance.StartClient();
 
         }
@@ -162,6 +231,12 @@ public class SuperTanksLobby : MonoBehaviour
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
 
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllcation = await JoinRelay(relayJoinCode);
+
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllcation, "dtls"));
+
             SuperTanksMultiplayer.Instance.StartClient();
         } catch (LobbyServiceException e)
         {
@@ -175,6 +250,12 @@ public class SuperTanksLobby : MonoBehaviour
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllcation = await JoinRelay(relayJoinCode);
+
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllcation, "dtls"));
 
             SuperTanksMultiplayer.Instance.StartClient();
         } catch (LobbyServiceException e)
