@@ -1059,7 +1059,7 @@ MonoBehaviour:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 30c8fab083e069e40adfe7f4a974c4cd, type: 2}
     TickRate: 30
-    ClientConnectionBufferTimeout: 10
+    ClientConnectionBufferTimeout: 15
     ConnectionApproval: 1
     ConnectionData: 
     EnableTimeResync: 0
@@ -2275,7 +2275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -58}
+  m_AnchoredPosition: {x: 0, y: -58.271}
   m_SizeDelta: {x: 417.47803, y: 75.7876}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &861993508
@@ -2973,10 +2973,10 @@ RectTransform:
   - {fileID: 335429298}
   m_Father: {fileID: 1305076632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 45, y: -122}
-  m_SizeDelta: {x: 492.8398, y: 81.9461}
+  m_AnchorMin: {x: 0.5, y: 0.48314717}
+  m_AnchorMax: {x: 0.5, y: 0.48314717}
+  m_AnchoredPosition: {x: 0.000026703, y: -334}
+  m_SizeDelta: {x: 376.4105, y: 81.9461}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225902989
 MonoBehaviour:
@@ -3035,7 +3035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7882353}
+  m_Color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0.7882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5269,7 +5269,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29, y: 206}
+  m_AnchoredPosition: {x: 17, y: 339}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809816508

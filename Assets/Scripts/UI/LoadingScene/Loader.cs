@@ -13,7 +13,7 @@ public static class Loader
         GameScene,
         LoadingScene,
         LobbyScene,
-        CharacterSelectScene,
+        RoomScene,
     }
     private static Scene targetScene;
     public static void Load(Scene targetScene)

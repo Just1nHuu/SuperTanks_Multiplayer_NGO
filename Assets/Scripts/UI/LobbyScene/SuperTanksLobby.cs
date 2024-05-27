@@ -191,7 +191,7 @@ public class SuperTanksLobby : MonoBehaviour
             });
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation,"dtls"));
             SuperTanksMultiplayer.Instance.StartHost();
-            Loader.LoadNetwork(Loader.Scene.CharacterSelectScene);
+            Loader.LoadNetwork(Loader.Scene.RoomScene);
 
         }
         catch (LobbyServiceException e)

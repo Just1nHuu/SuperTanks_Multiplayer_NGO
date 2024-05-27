@@ -78,7 +78,7 @@ public class SuperTanksMultiplayer : NetworkBehaviour
 
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
-        if(SceneManager.GetActiveScene().name != Loader.Scene.CharacterSelectScene.ToString())
+        if(SceneManager.GetActiveScene().name != Loader.Scene.RoomScene.ToString())
         {
             connectionApprovalResponse.Approved = false;
             connectionApprovalResponse.Reason = "Game is already";
