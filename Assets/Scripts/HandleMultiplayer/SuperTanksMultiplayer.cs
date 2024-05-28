@@ -64,7 +64,6 @@ public class SuperTanksMultiplayer : NetworkBehaviour
             if (playerData.clientId == clientId)
             {
                 playerDataNetworkList.RemoveAt(i);
-               
             }
         }
     }

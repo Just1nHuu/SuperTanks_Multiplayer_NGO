@@ -30,7 +30,6 @@ public class MissileGun : NetworkBehaviour
         CreateMissileServerRpc();
     }
 
-
     //Tạo Rpc để tạo tên lửa
     [ServerRpc(RequireOwnership = false)]
     public void CreateMissileServerRpc()

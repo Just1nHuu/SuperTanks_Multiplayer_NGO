@@ -40,10 +40,10 @@ public class SuperTanksLobby : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        InitializeUnityAuthentication();
+        Authentication();
     }
 
-    private async void InitializeUnityAuthentication()
+    private async void Authentication()
     {
         if (UnityServices.State != ServicesInitializationState.Initialized)
         {
@@ -51,7 +51,7 @@ public class SuperTanksLobby : MonoBehaviour
             initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
 
             await UnityServices.InitializeAsync(initializationOptions);
-
+            
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
       
@@ -192,7 +192,6 @@ public class SuperTanksLobby : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation,"dtls"));
             SuperTanksMultiplayer.Instance.StartHost();
             Loader.LoadNetwork(Loader.Scene.RoomScene);
-
         }
         catch (LobbyServiceException e)
         {

@@ -21,12 +21,12 @@ public class MissileExplosion : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if(!IsOwner) return;
-        InstantiateCollisionEnterServerRpc();
+        CollisionEnterServerRpc();
         parent.DestroyMissileServerRpc();   
     }
     //thực thi khi là máy chủ
     [ServerRpc]
-    private void InstantiateCollisionEnterServerRpc()
+    private void CollisionEnterServerRpc()
     {
         GameObject hitImpact=Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         NetworkObject networkObject= hitImpact.GetComponent<NetworkObject>();

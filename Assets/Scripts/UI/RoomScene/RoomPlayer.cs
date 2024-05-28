@@ -5,7 +5,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CharacterSelectPlayer : MonoBehaviour
+public class RoomPlayer : MonoBehaviour
 {
     [SerializeField] private int playerIndex;
     [SerializeField] private GameObject readyGameObject;
@@ -13,11 +13,11 @@ public class CharacterSelectPlayer : MonoBehaviour
     private void Start()
     {
         SuperTanksMultiplayer.Instance.OnDataNetworkListChanged += SuperTanksMultiplayer_OnDataNetworkListChanged;
-        CharacterSelectReady.Instance.OnReadyChanged += CharacterSelectReady_OnReadyChanged;
+        RoomReady.Instance.OnReadyChanged += RoomReady_OnReadyChanged;
         UpdatePlayer();
     }
 
-    private void CharacterSelectReady_OnReadyChanged(object sender, EventArgs e)
+    private void RoomReady_OnReadyChanged(object sender, EventArgs e)
     {
         UpdatePlayer();
     }
@@ -34,7 +34,8 @@ public class CharacterSelectPlayer : MonoBehaviour
             Show();
 
             PlayerData playeData = SuperTanksMultiplayer.Instance.GetPlayerDataFromPlayeIndex(playerIndex);
-            readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playeData.clientId));
+            readyGameObject.SetActive(RoomReady.Instance.IsPlayerReady(playeData.clientId));
+            Debug.Log(RoomReady.Instance.IsPlayerReady(playeData.clientId));
             playerNameText.text = playeData.playerName.ToString();   
         }
         else

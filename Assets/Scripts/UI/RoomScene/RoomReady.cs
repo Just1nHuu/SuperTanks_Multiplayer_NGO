@@ -6,9 +6,9 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CharacterSelectReady : NetworkBehaviour
+public class RoomReady : NetworkBehaviour
 {
-    public static CharacterSelectReady Instance { get; private set; }
+    public static RoomReady Instance { get; private set; }
 
 
     public event EventHandler OnReadyChanged;
@@ -20,7 +20,6 @@ public class CharacterSelectReady : NetworkBehaviour
 
         Instance = this;
         playerReadyDictionary = new Dictionary<ulong, bool>();
-        Debug.Log("CharacterSelectReady Awake");
     }
 
     public void SetPlayerReady()

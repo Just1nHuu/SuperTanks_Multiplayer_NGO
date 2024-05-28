@@ -29,12 +29,10 @@ public class Player : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-
         if (IsOwner)
         {
             transform.position = spawnPositionList[(int)OwnerClientId];
         }
-
     }
 
     // Update is called once per frame
